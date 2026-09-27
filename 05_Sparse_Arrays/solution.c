@@ -2,55 +2,34 @@
 #include <stdlib.h>
 #include <string.h>
 
-int* matchingStrings(int stringList_count, char** stringList, int queries_count, char** queries, int* result_count) {
-    int* results = malloc(queries_count * sizeof(int));
-    
-    for (int i = 0; i < queries_count; i++) {
+int main(void) {
+    int n, q;
+    scanf("%d", &n);
+
+    char **strings = (char **)malloc(n * sizeof(char *));
+    for (int i = 0; i < n; i++) {
+        strings[i] = (char *)malloc(1001 * sizeof(char));
+        scanf("%s", strings[i]);
+    }
+
+    scanf("%d", &q);
+    for (int i = 0; i < q; i++) {
+        char query[1001];
+        scanf("%s", query);
+
         int count = 0;
-        for (int j = 0; j < stringList_count; j++) {
-            if (strcmp(queries[i], stringList[j]) == 0) {
+        for (int j = 0; j < n; j++) {
+            if (strcmp(strings[j], query) == 0) {
                 count++;
             }
         }
-        results[i] = count;
-    }
-    
-    *result_count = queries_count;
-    return results;
-}
 
-int main() {
-    int stringList_count;
-    scanf("%d", &stringList_count);
-    
-    char** stringList = malloc(stringList_count * sizeof(char*));
-    for (int i = 0; i < stringList_count; i++) {
-        stringList[i] = malloc(100 * sizeof(char));
-        scanf("%s", stringList[i]);
+        printf("%d\n", count);
     }
-    
-    int queries_count;
-    scanf("%d", &queries_count);
-    
-    char** queries = malloc(queries_count * sizeof(char*));
-    for (int i = 0; i < queries_count; i++) {
-        queries[i] = malloc(100 * sizeof(char));
-        scanf("%s", queries[i]);
+
+    for (int i = 0; i < n; i++) {
+        free(strings[i]);
     }
-    
-    int result_count = 0;
-    int* res = matchingStrings(stringList_count, stringList, queries_count, queries, &result_count);
-    
-    for (int i = 0; i < result_count; i++) {
-        printf("%d\n", res[i]);
-    }
-    
-    // Free memory
-    for (int i = 0; i < stringList_count; i++) free(stringList[i]);
-    free(stringList);
-    for (int i = 0; i < queries_count; i++) free(queries[i]);
-    free(queries);
-    free(res);
-    
+    free(strings);
     return 0;
 }

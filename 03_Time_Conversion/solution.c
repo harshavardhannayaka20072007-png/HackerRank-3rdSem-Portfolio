@@ -1,36 +1,22 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 
-char* timeConversion(char* s) {
-    // Extract the hour digits from the string
-    int hh = (10 * (s[0] - '0')) + (s[1] - '0');
-    
-    // Check if it's PM or AM
-    if (s[8] == 'P' && hh < 12) {
-        hh += 12; // Convert afternoon hours (1-11 PM to 13-23)
-    } else if (s[8] == 'A' && hh == 12) {
-        hh = 0;   // Convert 12:xx:xxAM to 00:xx:xx
+int main(void) {
+    char time[11];
+    scanf("%s", time);
+
+    int hour = (time[0] - '0') * 10 + (time[1] - '0');
+    int minute = (time[3] - '0') * 10 + (time[4] - '0');
+    int second = (time[6] - '0') * 10 + (time[7] - '0');
+
+    if (time[8] == 'P' && hour != 12) {
+        hour += 12;
     }
-    
-    // Write the modified hour back to the start of the string
-    s[0] = (char)((hh / 10) + '0');
-    s[1] = (char)((hh % 10) + '0');
-    
-    // Terminate the string before 'AM'/'PM' to drop the suffix
-    s[8] = '\0';
-    
-    return s;
-}
 
-int main() {
-    // Read the input time string from HackerRank
-    char s[15];
-    if (scanf("%s", s) != 1) return 0;
-    
-    // Convert and print the result
-    char* result = timeConversion(s);
-    printf("%s\n", result);
+    if (time[8] == 'A' && hour == 12) {
+        hour = 0;
+    }
 
+    printf("%02d:%02d:%02d\n", hour, minute, second);
     return 0;
 }
